@@ -325,7 +325,7 @@ const HomeScreen = () => {
         duration: 300,
         useNativeDriver: true,
       }).start(() =>
-        setNotification({ message: "", type: "", visible: false })
+        setNotification({ message: "", type: "", visible: false }),
       );
     }, 3000);
   };
@@ -334,7 +334,7 @@ const HomeScreen = () => {
     try {
       const snapshot = await getDocs(collection(db, "popularPlaces"));
       setPopularPlaces(
-        snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })),
       );
     } catch (error) {
       showNotification("Failed to fetch popular places", "error");
