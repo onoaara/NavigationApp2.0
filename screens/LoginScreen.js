@@ -10,6 +10,7 @@ import {
   ScrollView,
   Dimensions,
   Animated,
+  ActivityIndicator,
 } from "react-native";
 import {
   signInWithEmailAndPassword,
@@ -34,6 +35,7 @@ const LoginScreen = () => {
   });
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [notificationAnim] = useState(new Animated.Value(-100));
   const navigation = useNavigation();
 
@@ -91,6 +93,7 @@ const LoginScreen = () => {
     }
 
     if (hasError) return;
+    setLoading(true);
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -99,6 +102,8 @@ const LoginScreen = () => {
     } catch (error) {
       // console.error("Error logging in: ", error);
       showNotification(error.message, "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -199,12 +204,20 @@ const LoginScreen = () => {
             ) : null}
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleLogin}
+            disabled={loading}
+          >
             <LinearGradient
               colors={["#4B5EFC", "#003D94"]}
               style={styles.buttonGradient}
             >
-              <Text style={styles.buttonText}>Log In</Text>
+              {loading ? (
+                <ActivityIndicator color="#FFFFFF" />
+              ) : (
+                <Text style={styles.buttonText}>Log In</Text>
+              )}
             </LinearGradient>
           </TouchableOpacity>
           <TouchableOpacity

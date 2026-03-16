@@ -6,7 +6,7 @@ import {
   View,
   Dimensions,
 } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import fetchWeather from "./fetchWeather";
 
 const { width, height } = Dimensions.get("window");
@@ -67,21 +67,15 @@ const WeatherBar = () => {
               {weatherData.weather[0].description}
             </Text>
             <View style={styles.location}>
-              <Ionicons
-                name="location-outline"
-                size={height * 0.02}
-                color="black"
-              />
               <Text style={styles.bodyLoc}>{weatherData.name}</Text>
             </View>
           </View>
           <View style={styles.weatherIcon}>
-            {/* <Icon
-              type="material-community"
+            <MaterialCommunityIcons
               name={getWeatherIcon(weatherData.weather[0].main)}
               size={height * 0.05}
               color="#fff"
-            /> */}
+            />
           </View>
         </>
       ) : (

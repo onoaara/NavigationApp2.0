@@ -11,6 +11,7 @@ import {
   Dimensions,
   Animated,
   Modal,
+  ActivityIndicator,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -50,6 +51,7 @@ const SignUpScreen = () => {
   const [matricNumberError, setMatricNumberError] = useState("");
   const [genderError, setGenderError] = useState("");
   const [termsError, setTermsError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [notificationAnim] = useState(new Animated.Value(-100));
   const navigation = useNavigation();
 
@@ -163,6 +165,7 @@ const SignUpScreen = () => {
     }
 
     if (hasError) return;
+    setLoading(true);
 
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -191,6 +194,8 @@ const SignUpScreen = () => {
       setTimeout(() => navigation.replace("Login"), 1000);
     } catch (error) {
       showNotification(error.message, "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -493,12 +498,20 @@ const SignUpScreen = () => {
             <Text style={styles.errorText}>{termsError}</Text>
           ) : null}
 
-          <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleSignUp}
+            disabled={loading}
+          >
             <LinearGradient
               colors={["#4B5EFC", "#003D94"]}
               style={styles.buttonGradient}
             >
-              <Text style={styles.buttonText}>Create Account</Text>
+              {loading ? (
+                <ActivityIndicator color="#FFFFFF" />
+              ) : (
+                <Text style={styles.buttonText}>Create Account</Text>
+              )}
             </LinearGradient>
           </TouchableOpacity>
 
