@@ -14,7 +14,7 @@ import {
   ScrollView,
   RefreshControl,
 } from "react-native";
-import { Icon } from "@rneui/base";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import SearchBar from "../components/SearchBar";
 import { db, storage } from "../firebase/firebase";
 import { collection, getDocs, addDoc } from "firebase/firestore";
@@ -50,7 +50,7 @@ const PhotoGalleryScreen = () => {
     const filteredData = photos.filter((photo) =>
       photo.description
         ? photo.description.toLowerCase().includes(searchQuery.toLowerCase())
-        : false
+        : false,
     );
     setFilteredPhotos(filteredData);
   }, [searchQuery, photos]);
@@ -133,7 +133,7 @@ const PhotoGalleryScreen = () => {
           }
         />
         <TouchableOpacity style={styles.addButton} onPress={pickImage}>
-          <Icon name="add" type="ionicon" color="#fff" size={30} />
+          <Ionicons name="add-outline" color="#fff" size={30} />
         </TouchableOpacity>
         {image && (
           <View style={styles.uploadContainer}>

@@ -7,7 +7,7 @@ import {
   RefreshControl,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { Icon } from "@rneui/base";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { formatDistanceToNow } from "date-fns";
@@ -26,7 +26,7 @@ const Events = () => {
           id: doc.id,
           ...doc.data(),
           date: doc.data().date?.toDate(),
-        }))
+        })),
       );
     } catch (error) {}
     setRefreshing(false);
@@ -56,12 +56,7 @@ const Events = () => {
         {events.map((event) => (
           <View key={event.id} style={styles.eventContainer}>
             <View style={styles.body}>
-              <Icon
-                type="ionicon"
-                name="chevron-forward"
-                size={16}
-                color="#003D94"
-              />
+              <Ionicons name="chevron-forward" size={16} color="#003D94" />
               <Text style={styles.text}>{event.name}</Text>
             </View>
             {event.date && (

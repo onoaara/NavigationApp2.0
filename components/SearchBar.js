@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
-import { Icon } from "@rneui/base";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const { width, height } = Dimensions.get("window");
 
@@ -22,7 +22,7 @@ const SearchBar = ({ placeholder, query, onChangeText, data, onSelect }) => {
 
   return (
     <View style={styles.container}>
-      <Icon type="ionicon" name="search" size={height * 0.03} color="#000000" />
+      <Ionicons name="search-outline" size={height * 0.03} color="#000000" />
       <TextInput
         style={styles.textInput}
         placeholder={placeholder}

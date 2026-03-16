@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { useRoute } from "@react-navigation/native";
-import { Image } from "@rneui/base";
+import { Image } from "react-native-elements";
 
 const Pp = () => {
   const route = useRoute();

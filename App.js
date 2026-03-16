@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Icon } from "@rneui/base";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 import HomeScreen from "./screens/HomeScreen";
 import Navigate from "./screens/Navigate";
@@ -38,7 +38,7 @@ function TabNavigator() {
           tabBarInactiveTintColor: "#dddddd",
           tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
-            <Icon type="ionicon" name="home" color={color} size={23} />
+            <Ionicons name="home" color={color} size={23} />
           ),
         }}
       />
@@ -49,7 +49,7 @@ function TabNavigator() {
           tabBarInactiveTintColor: "#dddddd",
           tabBarLabel: "Navigate",
           tabBarIcon: ({ color, size }) => (
-            <Icon type="ionicon" name="map-outline" color={color} size={24} />
+            <Ionicons name="map-outline" color={color} size={24} />
           ),
         }}
       />
@@ -60,12 +60,7 @@ function TabNavigator() {
           tabBarInactiveTintColor: "#dddddd",
           tabBarLabel: "Gallery",
           tabBarIcon: ({ color, size }) => (
-            <Icon
-              type="ionicon"
-              name="images-outline"
-              color={color}
-              size={24}
-            />
+            <Ionicons name="images-outline" color={color} size={24} />
           ),
         }}
       />
@@ -76,12 +71,7 @@ function TabNavigator() {
           tabBarInactiveTintColor: "#dddddd",
           tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <Icon
-              type="ionicon"
-              name="person-circle-outline"
-              color={color}
-              size={26}
-            />
+            <Ionicons name="person-circle-outline" color={color} size={26} />
           ),
         }}
       />

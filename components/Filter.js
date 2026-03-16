@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { Icon } from "@rneui/base";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Filter = () => {
   return (
     <View style={styles.Container}>
-      <Icon type="ionicon" name="filter" size={20} color="#3c3d42" />
+      <Ionicons name="filter-outline" size={20} color="#3c3d42" />
     </View>
   );
 };

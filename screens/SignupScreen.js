@@ -1,323 +1,3 @@
-// import React, { useState } from "react";
-// import {
-//   StyleSheet,
-//   Text,
-//   TextInput,
-//   TouchableOpacity,
-//   View,
-//   Alert,
-//   KeyboardAvoidingView,
-//   Platform,
-//   ScrollView,
-//   Dimensions,
-//   Modal,
-// } from "react-native";
-// import DateTimePicker from "@react-native-community/datetimepicker";
-// import { createUserWithEmailAndPassword } from "firebase/auth";
-// import { collection, addDoc } from "firebase/firestore";
-// import { auth, db } from "../firebase/firebase"; // Ensure auth and db are imported
-// import { useNavigation } from "@react-navigation/native";
-// import { Icon } from "@rneui/base";
-
-// const { width, height } = Dimensions.get("window");
-
-// const SignUpScreen = () => {
-//   const [fullName, setFullName] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [confirmPassword, setConfirmPassword] = useState("");
-//   const [dob, setDob] = useState(new Date());
-//   const [showDatePicker, setShowDatePicker] = useState(false);
-//   const [phone, setPhone] = useState("");
-//   const [matricNumber, setMatricNumber] = useState("");
-//   const [gender, setGender] = useState("");
-//   const [termsAccepted, setTermsAccepted] = useState(false);
-//   const [modalVisible, setModalVisible] = useState(false);
-//   const navigation = useNavigation();
-
-//   const handleSignUp = async () => {
-//     if (!termsAccepted) {
-//       Alert.alert("Error", "You must accept the terms and conditions");
-//       return;
-//     }
-
-//     if (password !== confirmPassword) {
-//       Alert.alert("Error", "Passwords do not match");
-//       return;
-//     }
-
-//     try {
-//       const userCredential = await createUserWithEmailAndPassword(
-//         auth,
-//         email,
-//         password
-//       );
-//       const user = userCredential.user;
-
-//       const [firstName, lastName] = fullName.split(" ");
-
-//       await addDoc(collection(db, "userDetails"), {
-//         uid: user.uid,
-//         firstName,
-//         lastName,
-//         dob: dob.toISOString().split("T")[0],
-//         phone,
-//         matricNumber,
-//         gender,
-//         email,
-//         isActive: true,
-//       });
-
-//       Alert.alert("Success", "Account created successfully!");
-//       navigation.navigate("Login");
-//     } catch (error) {
-//       console.error("Error signing up: ", error);
-//       Alert.alert("Error", error.message);
-//     }
-//   };
-
-//   const openGenderModal = () => {
-//     setModalVisible(true);
-//   };
-
-//   const selectGender = (selectedGender) => {
-//     setGender(selectedGender);
-//     setModalVisible(false);
-//   };
-
-//   return (
-//     <KeyboardAvoidingView
-//       behavior={Platform.OS === "ios" ? "padding" : undefined}
-//       style={{ flex: 1 }}
-//       keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
-//     >
-//       <ScrollView contentContainerStyle={styles.container}>
-//         <TouchableOpacity
-//           onPress={() => navigation.goBack()}
-//           style={styles.backButton}
-//         >
-//           <Icon name="arrow-back" type="ionicon" color="#000" />
-//         </TouchableOpacity>
-//         <Text style={styles.title}>SIGN UP</Text>
-//         <View style={styles.inputContainer}>
-//           <Icon name="person-outline" type="ionicon" color="#000" />
-//           <TextInput
-//             style={styles.input}
-//             placeholder="Full Name"
-//             value={fullName}
-//             onChangeText={setFullName}
-//             autoCapitalize="words"
-//           />
-//         </View>
-//         <View style={styles.inputContainer}>
-//           <Icon name="mail-outline" type="ionicon" color="#000" />
-//           <TextInput
-//             style={styles.input}
-//             placeholder="Email"
-//             value={email}
-//             onChangeText={setEmail}
-//             keyboardType="email-address"
-//             autoCapitalize="none"
-//           />
-//         </View>
-//         <View style={styles.inputContainer}>
-//           <Icon name="lock-closed-outline" type="ionicon" color="#000" />
-//           <TextInput
-//             style={styles.input}
-//             placeholder="Password"
-//             value={password}
-//             onChangeText={setPassword}
-//             secureTextEntry
-//             autoCapitalize="none"
-//           />
-//         </View>
-//         <View style={styles.inputContainer}>
-//           <Icon name="lock-closed-outline" type="ionicon" color="#000" />
-//           <TextInput
-//             style={styles.input}
-//             placeholder="Confirm Password"
-//             value={confirmPassword}
-//             onChangeText={setConfirmPassword}
-//             secureTextEntry
-//             autoCapitalize="none"
-//           />
-//         </View>
-//         <TouchableOpacity
-//           style={styles.inputContainer}
-//           onPress={() => setShowDatePicker(true)}
-//         >
-//           <Icon name="calendar-outline" type="ionicon" color="#000" />
-//           <Text style={[styles.input, { color: dob ? "#000" : "#aaa" }]}>
-//             {dob
-//               ? dob.toISOString().split("T")[0]
-//               : "Date of Birth (YYYY-MM-DD)"}
-//           </Text>
-//         </TouchableOpacity>
-//         {showDatePicker && (
-//           <DateTimePicker
-//             value={dob}
-//             mode="date"
-//             display="default"
-//             onChange={(event, selectedDate) => {
-//               setShowDatePicker(false);
-//               if (selectedDate) {
-//                 setDob(selectedDate);
-//               }
-//             }}
-//           />
-//         )}
-//         <View style={styles.inputContainer}>
-//           <Icon name="call-outline" type="ionicon" color="#000" />
-//           <TextInput
-//             style={styles.input}
-//             placeholder="Phone"
-//             value={phone}
-//             onChangeText={setPhone}
-//             keyboardType="phone-pad"
-//             autoCapitalize="none"
-//           />
-//         </View>
-//         <View style={styles.inputContainer}>
-//           <Icon name="card-outline" type="ionicon" color="#000" />
-//           <TextInput
-//             style={styles.input}
-//             placeholder="Matric Number"
-//             value={matricNumber}
-//             onChangeText={setMatricNumber}
-//             keyboardType="number-pad"
-//             autoCapitalize="none"
-//           />
-//         </View>
-//         <TouchableOpacity
-//           style={styles.inputContainer}
-//           onPress={openGenderModal}
-//         >
-//           <Icon name="male-female-outline" type="ionicon" color="#000" />
-//           <Text style={[styles.input, { color: gender ? "#000" : "#aaa" }]}>
-//             {gender || "Select Gender"}
-//           </Text>
-//         </TouchableOpacity>
-//         <Modal visible={modalVisible} transparent={true} animationType="slide">
-//           <View style={styles.modalContainer}>
-//             <View style={styles.modalContent}>
-//               <TouchableOpacity onPress={() => selectGender("M")}>
-//                 <Text style={styles.modalText}>Male</Text>
-//               </TouchableOpacity>
-//               <TouchableOpacity onPress={() => selectGender("F")}>
-//                 <Text style={styles.modalText}>Female</Text>
-//               </TouchableOpacity>
-//               <TouchableOpacity onPress={() => setModalVisible(false)}>
-//                 <Text style={styles.modalCancel}>Cancel</Text>
-//               </TouchableOpacity>
-//             </View>
-//           </View>
-//         </Modal>
-//         <View style={styles.checkboxContainer}>
-//           <TouchableOpacity onPress={() => setTermsAccepted(!termsAccepted)}>
-//             <Icon
-//               name={termsAccepted ? "checkbox-outline" : "square-outline"}
-//               type="ionicon"
-//               color="#000"
-//             />
-//           </TouchableOpacity>
-//           <Text style={styles.checkboxText}>
-//             I agree to all the{" "}
-//             <Text style={styles.linkText}>Terms & Conditions</Text>
-//           </Text>
-//         </View>
-//         <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-//           <Text style={styles.buttonText}>Create Account</Text>
-//         </TouchableOpacity>
-//       </ScrollView>
-//     </KeyboardAvoidingView>
-//   );
-// };
-
-// export default SignUpScreen;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flexGrow: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     padding: 20,
-//     backgroundColor: "#fff",
-//   },
-//   backButton: {
-//     position: "absolute",
-//     top: 50,
-//     left: 20,
-//   },
-//   title: {
-//     fontSize: 24,
-//     fontWeight: "bold",
-//     marginBottom: 20,
-//   },
-//   inputContainer: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     width: width * 0.9,
-//     height: 50,
-//     borderColor: "#ccc",
-//     borderWidth: 1,
-//     borderRadius: 5,
-//     marginBottom: 15,
-//     paddingHorizontal: 10,
-//   },
-//   input: {
-//     flex: 1,
-//     paddingHorizontal: 10,
-//   },
-//   checkboxContainer: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     marginBottom: 20,
-//   },
-//   checkboxText: {
-//     marginLeft: 10,
-//   },
-//   button: {
-//     width: width * 0.9,
-//     height: 50,
-//     backgroundColor: "#4361ee",
-//     justifyContent: "center",
-//     alignItems: "center",
-//     borderRadius: 5,
-//     marginBottom: 10,
-//   },
-//   buttonText: {
-//     color: "#fff",
-//     fontSize: 16,
-//     fontWeight: "bold",
-//   },
-//   linkText: {
-//     color: "#007BFF",
-//     fontSize: 16,
-//   },
-//   modalContainer: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: "rgba(0,0,0,0.5)",
-//   },
-//   modalContent: {
-//     width: width * 0.8,
-//     backgroundColor: "#fff",
-//     borderRadius: 10,
-//     padding: 20,
-//     alignItems: "center",
-//   },
-//   modalText: {
-//     fontSize: 18,
-//     marginVertical: 10,
-//   },
-//   modalCancel: {
-//     fontSize: 18,
-//     color: "#ff0000",
-//     marginVertical: 10,
-//   },
-// });
-
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -337,7 +17,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
 import { auth, db } from "../firebase/firebase";
 import { useNavigation } from "@react-navigation/native";
-import { Icon } from "@rneui/base";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -405,7 +85,7 @@ const SignUpScreen = () => {
         duration: 300,
         useNativeDriver: true,
       }).start(() =>
-        setNotification({ message: "", type: "", visible: false })
+        setNotification({ message: "", type: "", visible: false }),
       );
     }, 3000);
   };
@@ -488,7 +168,7 @@ const SignUpScreen = () => {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
       const user = userCredential.user;
 
@@ -553,25 +233,28 @@ const SignUpScreen = () => {
           </Animated.View>
         )}
         <ScrollView contentContainerStyle={styles.container}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            omitting
-            backButton
-            style
-            to
-            avoid
-            absolute
-            positioning
-            issues
-          >
-            <Icon name="arrow-back" type="ionicon" color="#FFFFFF" size={24} />
-          </TouchableOpacity>
-          <Text style={styles.title}>Create Account</Text>
+          <View style={styles.header}>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              omitting
+              backButton
+              style
+              to
+              avoid
+              absolute
+              positioning
+              issues
+            >
+              <Ionicons name="arrow-back" color="#FFFFFF" size={24} />
+            </TouchableOpacity>
+            <Text style={styles.title}>Create Account</Text>
+            <View style={{ width: 24 }} />
+          </View>
           <Text style={styles.subtitle}>Sign up to get started</Text>
 
           <View style={styles.input_error_container}>
             <View style={styles.inputContainer}>
-              <Icon name="person" type="ionicon" color="#003D94" size={24} />
+              <Ionicons name="person" color="#003D94" size={24} />
               <TextInput
                 style={[styles.input, fullNameError ? styles.inputError : null]}
                 placeholder="Full Name"
@@ -591,7 +274,7 @@ const SignUpScreen = () => {
 
           <View style={styles.input_error_container}>
             <View style={styles.inputContainer}>
-              <Icon name="mail" type="ionicon" color="#003D94" size={24} />
+              <Ionicons name="mail" color="#003D94" size={24} />
               <TextInput
                 style={[styles.input, emailError ? styles.inputError : null]}
                 placeholder="Email"
@@ -612,12 +295,7 @@ const SignUpScreen = () => {
 
           <View style={styles.input_error_container}>
             <View style={styles.inputContainer}>
-              <Icon
-                name="lock-closed"
-                type="ionicon"
-                color="#003D94"
-                size={24}
-              />
+              <Ionicons name="lock-closed" color="#003D94" size={24} />
               <TextInput
                 style={[styles.input, passwordError ? styles.inputError : null]}
                 placeholder="Password"
@@ -631,9 +309,8 @@ const SignUpScreen = () => {
                 autoCapitalize="none"
               />
               <TouchableOpacity onPress={togglePasswordVisibility}>
-                <Icon
+                <Ionicons
                   name={passwordVisible ? "eye-off-outline" : "eye-outline"}
-                  type="ionicon"
                   color="#003D94"
                   size={24}
                 />
@@ -646,12 +323,7 @@ const SignUpScreen = () => {
 
           <View style={styles.input_error_container}>
             <View style={styles.inputContainer}>
-              <Icon
-                name="lock-closed"
-                type="ionicon"
-                color="#003D94"
-                size={24}
-              />
+              <Ionicons name="lock-closed" color="#003D94" size={24} />
               <TextInput
                 style={[
                   styles.input,
@@ -668,11 +340,10 @@ const SignUpScreen = () => {
                 autoCapitalize="none"
               />
               <TouchableOpacity onPress={toggleConfirmPasswordVisibility}>
-                <Icon
+                <Ionicons
                   name={
                     confirmPasswordVisible ? "eye-off-outline" : "eye-outline"
                   }
-                  type="ionicon"
                   color="#003D94"
                   size={24}
                 />
@@ -688,7 +359,7 @@ const SignUpScreen = () => {
               style={styles.inputContainer}
               onPress={() => setShowDatePicker(true)}
             >
-              <Icon name="calendar" type="ionicon" color="#003D94" size={24} />
+              <Ionicons name="calendar" color="#003D94" size={24} />
               <Text
                 style={[styles.input, { color: dob ? "#1F2937" : "#9CA3AF" }]}
               >
@@ -714,7 +385,7 @@ const SignUpScreen = () => {
 
           <View style={styles.input_error_container}>
             <View style={styles.inputContainer}>
-              <Icon name="call" type="ionicon" color="#003D94" size={24} />
+              <Ionicons name="call" color="#003D94" size={24} />
               <TextInput
                 style={[styles.input, phoneError ? styles.inputError : null]}
                 placeholder="Phone"
@@ -735,7 +406,7 @@ const SignUpScreen = () => {
 
           <View style={styles.input_error_container}>
             <View style={styles.inputContainer}>
-              <Icon name="card" type="ionicon" color="#003D94" size={24} />
+              <Ionicons name="card" color="#003D94" size={24} />
               <TextInput
                 style={[
                   styles.input,
@@ -765,12 +436,7 @@ const SignUpScreen = () => {
               ]}
               onPress={openGenderModal}
             >
-              <Icon
-                name="male-female"
-                type="ionicon"
-                color="#003D94"
-                size={24}
-              />
+              <Ionicons name="male-female" color="#003D94" size={24} />
               <Text
                 style={[
                   styles.input,
@@ -812,9 +478,8 @@ const SignUpScreen = () => {
                 setTermsError("");
               }}
             >
-              <Icon
+              <Ionicons
                 name={termsAccepted ? "checkbox-outline" : "square-outline"}
-                type="ionicon"
                 color="#FFFFFF"
                 size={24}
               />
@@ -861,6 +526,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 24,
+  },
+  header: {
+    width: width * 0.9,
+    // marginBottom: 32,
+    marginTop: height * 0.03,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   title: {
     fontSize: 32,

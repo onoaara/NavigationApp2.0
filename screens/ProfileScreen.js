@@ -9,7 +9,7 @@ import {
   ScrollView,
   RefreshControl,
 } from "react-native";
-import { Icon } from "@rneui/base";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { auth, db } from "../firebase/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
@@ -30,7 +30,7 @@ const ProfileScreen = () => {
       if (user) {
         const q = query(
           collection(db, "userDetails"),
-          where("email", "==", user.email)
+          where("email", "==", user.email),
         );
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
@@ -105,28 +105,17 @@ const ProfileScreen = () => {
       <View style={styles.secondContainer}>
         <View style={styles.optionsContainer}>
           <TouchableOpacity style={styles.icon_text}>
-            <Icon
-              type="ionicon"
-              name="cog-outline"
-              size={28}
-              style={styles.icon}
-            />
+            <Ionicons name="cog-outline" size={28} style={styles.icon} />
             <Text style={styles.iconText}>Settings</Text>
-            <Icon type="ionicon" size={20} name="chevron-forward-outline" />
+            <Ionicons size={20} name="chevron-forward-outline" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.icon_text}>
-            <Icon
-              type="ionicon"
-              name="book-outline"
-              size={28}
-              style={styles.icon}
-            />
+            <Ionicons name="book-outline" size={28} style={styles.icon} />
             <Text style={styles.iconText}>Feedback</Text>
-            <Icon type="ionicon" size={20} name="chevron-forward-outline" />
+            <Ionicons size={20} name="chevron-forward-outline" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.icon_text} onPress={handleLogout}>
-            <Icon
-              type="ionicon"
+            <Ionicons
               name="log-out-outline"
               size={28}
               style={styles.icon}
@@ -143,12 +132,7 @@ const ProfileScreen = () => {
             >
               Logout
             </Text>
-            <Icon
-              type="ionicon"
-              size={20}
-              name="chevron-forward-outline"
-              color={"red"}
-            />
+            <Ionicons size={20} name="chevron-forward-outline" color={"red"} />
           </TouchableOpacity>
         </View>
       </View>

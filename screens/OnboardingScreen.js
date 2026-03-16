@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-import { Image } from "@rneui/base";
+import { Image } from "react-native-elements";
 
 const img = "../assets/logo.png";
 

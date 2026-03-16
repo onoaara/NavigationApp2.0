@@ -17,7 +17,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { useNavigation } from "@react-navigation/native";
-import { Icon } from "@rneui/base";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -60,7 +60,7 @@ const LoginScreen = () => {
         duration: 300,
         useNativeDriver: true,
       }).start(() =>
-        setNotification({ message: "", type: "", visible: false })
+        setNotification({ message: "", type: "", visible: false }),
       );
     }, 3000);
   };
@@ -127,7 +127,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <KeyboardAwareScrollView
+    <View
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
@@ -151,7 +151,8 @@ const LoginScreen = () => {
           <Text style={styles.subtitle}>Sign in to continue</Text>
           <View style={styles.input_error_container}>
             <View style={styles.inputContainer}>
-              <Icon name="person" type="ionicon" color="#003D94" size={24} />
+              <Ionicons name="person-outline" size={24} color="#003D94" />
+
               <TextInput
                 style={[styles.input, emailError ? styles.inputError : null]}
                 placeholder="Email"
@@ -172,12 +173,7 @@ const LoginScreen = () => {
 
           <View>
             <View style={styles.inputContainer}>
-              <Icon
-                name="lock-closed"
-                type="ionicon"
-                color="#003D94"
-                size={24}
-              />
+              <Ionicons name="lock-closed-outline" size={24} color="#003D94" />
               <TextInput
                 style={[styles.input, passwordError ? styles.inputError : null]}
                 placeholder="Password"
@@ -191,11 +187,10 @@ const LoginScreen = () => {
                 autoCapitalize="none"
               />
               <TouchableOpacity onPress={togglePasswordVisibility}>
-                <Icon
+                <Ionicons
                   name={passwordVisible ? "eye-off-outline" : "eye-outline"}
-                  type="ionicon"
-                  color="#003D94"
                   size={24}
+                  color="#003D94"
                 />
               </TouchableOpacity>
             </View>
@@ -226,7 +221,7 @@ const LoginScreen = () => {
           </TouchableOpacity>
         </ScrollView>
       </LinearGradient>
-    </KeyboardAwareScrollView>
+    </View>
   );
 };
 

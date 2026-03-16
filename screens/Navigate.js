@@ -87,7 +87,7 @@ const Navigate = () => {
     if (origin && destination) {
       try {
         const response = await fetch(
-          `https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&key=AIzaSyBGtxL3mVOau2CTPHcZuBzgrQthui7evsE`
+          `https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY}`
         );
         const json = await response.json();
         if (json.routes.length) {

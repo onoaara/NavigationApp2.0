@@ -1,105 +1,3 @@
-// import {
-//   StyleSheet,
-//   Text,
-//   View,
-//   Image,
-//   Dimensions,
-//   TouchableOpacity,
-//   Alert,
-// } from "react-native";
-// import React from "react";
-// import { useRoute, useNavigation } from "@react-navigation/native";
-// import { Icon } from "@rneui/base";
-// import * as Clipboard from "expo-clipboard";
-
-// const { width, height } = Dimensions.get("window");
-
-// const CabDetails = () => {
-//   const route = useRoute();
-//   const navigation = useNavigation();
-
-//   const { name, image, plateNumber, carModel, phoneNumber } = route.params;
-
-//   const copyToClipboard = () => {
-//     Clipboard.setString(phoneNumber);
-//     Alert.alert(
-//       "Copied to Clipboard",
-//       "Phone number has been copied to clipboard."
-//     );
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <TouchableOpacity
-//         style={styles.closeButton}
-//         onPress={() => navigation.goBack()}
-//       >
-//         <Icon type="ionicon" name="close" size={height * 0.03} color="red" />
-//       </TouchableOpacity>
-//       <Image source={{ uri: image }} style={styles.image} />
-//       <View style={styles.detailsContainer}>
-//         <Text style={styles.name}>{name}</Text>
-//         <View style={styles.phoneContainer}>
-//           <Text style={styles.detail}>Phone: {phoneNumber}</Text>
-//           <TouchableOpacity onPress={copyToClipboard}>
-//             <Icon
-//               type="ionicon"
-//               name="copy"
-//               size={height * 0.02}
-//               color="#4361ee"
-//               style={{ paddingLeft: 10 }}
-//             />
-//           </TouchableOpacity>
-//         </View>
-//         <Text style={styles.detail}>Car Model: {carModel}</Text>
-//         <Text style={styles.detail}>Plate Number: {plateNumber}</Text>
-//       </View>
-//     </View>
-//   );
-// };
-
-// export default CabDetails;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     alignItems: "center",
-//     justifyContent: "center",
-//     paddingHorizontal: width * 0.05,
-//   },
-//   image: {
-//     width: "70%",
-//     height: height * 0.4,
-//     borderRadius: 12,
-//     marginBottom: height * 0.03,
-//   },
-//   detailsContainer: {
-//     width: "100%",
-//     alignItems: "center",
-//   },
-//   name: {
-//     fontSize: height * 0.03,
-//     fontWeight: "bold",
-//     marginBottom: height * 0.02,
-//   },
-//   phoneContainer: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     marginBottom: height * 0.01,
-//   },
-//   detail: {
-//     fontSize: height * 0.02,
-//     color: "#555",
-//   },
-//   closeButton: {
-//     position: "absolute",
-//     top: height * 0.05,
-//     right: width * 0.05,
-//     zIndex: 1,
-//   },
-// });
-
 import React from "react";
 import {
   StyleSheet,
@@ -112,7 +10,7 @@ import {
   Platform,
 } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { Icon } from "@rneui/base";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import * as Clipboard from "expo-clipboard";
@@ -174,7 +72,7 @@ const CabDetails = () => {
             style={styles.closeButton}
             onPress={() => navigation.goBack()}
           >
-            <Icon type="ionicon" name="close" size={24} color="#EF4444" />
+            <Ionicons name="close-outline" size={24} color="#EF4444" />
           </TouchableOpacity>
           <View style={styles.card}>
             <Image
@@ -186,9 +84,8 @@ const CabDetails = () => {
               <View style={styles.phoneContainer}>
                 <Text style={styles.detail}>Phone: {phoneNumber}</Text>
                 <TouchableOpacity onPress={copyToClipboard}>
-                  <Icon
-                    type="ionicon"
-                    name="copy"
+                  <Ionicons
+                    name="copy-outline"
                     size={20}
                     color="#003D94"
                     style={{ paddingLeft: 10 }}
