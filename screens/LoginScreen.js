@@ -98,7 +98,6 @@ const LoginScreen = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       showNotification("Logged in successfully!", "success");
-      setTimeout(() => navigation.replace("Main"), 1000);
     } catch (error) {
       // console.error("Error logging in: ", error);
       showNotification(error.message, "error");

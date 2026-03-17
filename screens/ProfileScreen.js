@@ -13,6 +13,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { auth, db } from "../firebase/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
+import AlertModal from "../components/Alert";
 
 const { width, height } = Dimensions.get("window");
 
@@ -23,6 +24,8 @@ const ProfileScreen = () => {
     lastName: "",
   });
   const [refreshing, setRefreshing] = useState(false);
+  const [logoutAlertVisible, setLogoutAlertVisible] = useState(false);
+  const [logoutLoading, setLogoutLoading] = useState(false);
 
   const fetchUserData = async () => {
     try {
@@ -66,15 +69,20 @@ const ProfileScreen = () => {
   };
 
   const handleLogout = () => {
-    auth
-      .signOut()
-      .then(() => {
-        Alert.alert("Logout", "You have been logged out.");
-        navigation.replace("Login");
-      })
-      .catch((error) => {
-        console.error("Error logging out: ", error);
-      });
+    setLogoutAlertVisible(true);
+  };
+
+  const confirmLogout = async () => {
+    setLogoutLoading(true);
+    try {
+      await auth.signOut();
+      setLogoutAlertVisible(false);
+    } catch (error) {
+      console.error("Error logging out: ", error);
+      Alert.alert("Error", "Failed to logout. Please try again.");
+    } finally {
+      setLogoutLoading(false);
+    }
   };
 
   const handleEditProfile = () => {
@@ -136,6 +144,16 @@ const ProfileScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <AlertModal
+        visible={logoutAlertVisible}
+        title="Logout"
+        message="Are you sure you want to logout?"
+        confirmText="Logout"
+        cancelText="Cancel"
+        onConfirm={confirmLogout}
+        onCancel={() => setLogoutAlertVisible(false)}
+        confirmLoading={logoutLoading}
+      />
     </ScrollView>
   );
 };

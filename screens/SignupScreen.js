@@ -191,7 +191,6 @@ const SignUpScreen = () => {
       });
 
       showNotification("Account created successfully!", "success");
-      setTimeout(() => navigation.replace("Login"), 1000);
     } catch (error) {
       showNotification(error.message, "error");
     } finally {
